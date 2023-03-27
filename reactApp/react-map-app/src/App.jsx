@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
+import { Header } from "./components/Header";
+// import LeftMenu from "./LeftMenu";
+// import MainContent from "./MainContent";
 import "./styles.css";
+
 
 
 export const App = () => {
@@ -9,6 +13,7 @@ export const App = () => {
 
   return (
     <>
+    <Header />
       <div className="container">
         <div className="left-menu">
           左メニュー
