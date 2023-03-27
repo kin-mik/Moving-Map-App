@@ -49,7 +49,7 @@ export const App = () => {
           </div>
           <div className="map-area">
             <GoogleMapReact
-              bootstrapURLKeys={{ key: "AIzaSyAMQiUaZvE2RY8GL-LkNVK6l8jV3lWG0Z8" }}
+              // bootstrapURLKeys={{ key: "AIzaSyAMQiUaZvE2RY8GL-LkNVK6l8jV3lWG0Z8" }}
               center={center}
               zoom={zoom}
             />
