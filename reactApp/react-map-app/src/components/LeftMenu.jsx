@@ -5,7 +5,8 @@ export const LeftMenu = () => {
 
     return (
         <div className="left-menu">
-            左メニュー
+            <input placeholder="検索"/>
+            <button>検索</button>
         </div>
     );
 };
