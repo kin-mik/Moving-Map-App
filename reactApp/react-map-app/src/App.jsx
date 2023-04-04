@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
 import { Header } from "./components/Header";
-// import LeftMenu from "./LeftMenu";
+import { LeftMenu } from "./components/LeftMenu";
 // import MainContent from "./MainContent";
 import "./styles.css";
 
@@ -33,19 +33,17 @@ export const App = () => {
 
   return (
     <>
-    <Header />
+      <Header />
       <div className="container">
-        <div className="left-menu">
-          左メニュー
-        </div>
+        <LeftMenu />
         <div className="main-contents">
           <div className="input-area">
-          <input
-            placeholder="地図を移動"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-          <button onClick={handleSearch}>検索</button>
+            <input
+              placeholder="地図を移動"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+            <button onClick={handleSearch}>検索</button>
           </div>
           <div className="map-area">
             <GoogleMapReact
