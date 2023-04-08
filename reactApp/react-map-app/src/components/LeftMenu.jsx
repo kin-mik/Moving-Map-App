@@ -18,7 +18,7 @@ export const LeftMenu = () => {
                 <div>
                     <label>
                         移動手段：
-                        <select value={selectedOption} onChange={handleChange}>
+                        <select className="drop-down" value={selectedOption} onChange={handleChange}>
                             <option value="car">車</option>
                             <option value="bike">自転車</option>
                             <option value="walk">徒歩</option>

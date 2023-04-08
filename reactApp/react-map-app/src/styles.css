@@ -47,9 +47,15 @@ li {
 }
 
 .search-box {
+  border-radius: 16px;
   width: 95%;
   padding: 10px;
   background-color: #b0b0b0;
+}
+
+.drop-down {
+  width: 90px;
+  padding: 10px;
 }
 
 .main-contents {
