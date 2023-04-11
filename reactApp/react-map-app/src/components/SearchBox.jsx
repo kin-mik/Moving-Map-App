@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { SearchBox } from "./SearchBox";
 
-export const LeftMenu = () => {
+export const SearchBox = () => {
     // const { todoText, onChange, onClick, disabled } = props;
     const [selectedOption, setSelectedOption] = useState("");
 
@@ -10,8 +9,6 @@ export const LeftMenu = () => {
     };
 
     return (
-        <div className="left-menu">
-            <SearchBox />
             <div className="search-box">
                 <p className="title">地点①</p>
                 <input placeholder="地名を検索" />
@@ -31,7 +28,5 @@ export const LeftMenu = () => {
                     </label>
                 </div>
             </div>
-
-        </div>
     );
 };
