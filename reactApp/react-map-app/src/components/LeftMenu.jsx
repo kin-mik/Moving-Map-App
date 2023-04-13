@@ -5,6 +5,7 @@ import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
     const { pinNum, onChange } = props;
+    const n = 3;
 
     return (
         <div className="left-menu">
@@ -23,11 +24,12 @@ export const LeftMenu = (props) => {
         </TabList>
 
         <TabPanel>
+
         </TabPanel>
         <TabPanel>
-          <SearchBox />
-          <SearchBox />
-          <SearchBox />
+        {[...Array(n)].map((_, i) => (
+        <SearchBox key={i} />
+      ))}
         </TabPanel>
       </Tabs>
 
