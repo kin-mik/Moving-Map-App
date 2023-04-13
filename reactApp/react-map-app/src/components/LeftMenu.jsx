@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SearchBox } from "./SearchBox";
+import { PinBox } from "./PinBox";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
@@ -24,7 +25,9 @@ export const LeftMenu = (props) => {
         </TabList>
 
         <TabPanel>
-
+        {[...Array(n)].map((_, i) => (
+        <PinBox key={i} />
+      ))}
         </TabPanel>
         <TabPanel>
         {[...Array(n)].map((_, i) => (
