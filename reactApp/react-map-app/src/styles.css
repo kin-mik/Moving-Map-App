@@ -69,6 +69,7 @@ li {
   height: 30px;
   padding: 8px;
   margin: 0px;
+  background-color: #EEEEEE;
 }
 
 .search-box {
@@ -92,7 +93,7 @@ li {
 
 .input-area {
   background-color: #cdf5fa;
-  width: 100%;
+  width: 99%;
   height: 30px;
   padding: 8px;
   margin: 0px;

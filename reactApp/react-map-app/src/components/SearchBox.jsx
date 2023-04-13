@@ -13,7 +13,7 @@ export const SearchBox = () => {
                 <p className="title">地点①</p>
                 <input placeholder="地名を検索" />
                 <button>検索</button>
-                <button>削除</button>
+                <button>解除</button>
                 <div>
                     <label>
                         移動手段：
