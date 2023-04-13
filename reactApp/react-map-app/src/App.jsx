@@ -11,6 +11,9 @@ export const App = () => {
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
+  const [pinNum, setPinNum] = useState(3);
+  const onChangePinNum = (e) => setPinNum(e.target.value);
+
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
     const geocoder = new window.google.maps.Geocoder();
@@ -33,9 +36,12 @@ export const App = () => {
 
   return (
     <>
-      <Header />
+      <Header/>
       <div className="container">
-        <LeftMenu />
+        <LeftMenu
+          pinNum={pinNum}
+          onChange={onChangePinNum}
+        />
         <div className="main-contents">
           <div className="input-area">
             <input
@@ -47,7 +53,7 @@ export const App = () => {
           </div>
           <div className="map-area">
             <GoogleMapReact
-              // bootstrapURLKeys={{ key: "" }}
+              // bootstrapURLKeys={{ key: "AIzaSyAMQiUaZvE2RY8GL-LkNVK6l8jV3lWG0Z8" }}
               center={center}
               zoom={zoom}
             />
