@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-export const SearchBox = () => {
-    // const { todoText, onChange, onClick, disabled } = props;
+export const SearchBox = (props) => {
+    const { index } = props;
     const [selectedOption, setSelectedOption] = useState("");
 
     const handleChange = (e) => {
@@ -10,7 +10,7 @@ export const SearchBox = () => {
 
     return (
             <div className="search-box">
-                <p className="title">地点①</p>
+                <p className="title">{`地点${index+1}`}</p>
                 <input placeholder="地名を検索" />
                 <button>検索</button>
                 <button>解除</button>
