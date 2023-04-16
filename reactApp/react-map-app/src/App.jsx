@@ -9,13 +9,22 @@ import "./styles.css";
 
 export const App = () => {
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
+  const [pinCoords, setPinCoords] = useState(
+    Array.from({ length: 2 }, () => ({ lat: 35.681167, lng: 139.767052 }))
+  );
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
-  const [pinNum, setPinNum] = useState(2);
-  const onChangePinNum = (e) => setPinNum(e.target.value);
+  const [pinNum, setPinNum] = useState(3);
+  const onChangePinNum = (e) => {
+    const num = parseInt(e.target.value, 10);
+    setPinNum(num);
+    setPinCoords(
+      Array.from({ length: num }, () => ({ lat: center.lat, lng: center.lng }))
+    );
+  };
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
-  const [marker, setMarker] = useState(null);
+  const [markers, setMarkers] = useState([]);
 
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
@@ -40,24 +49,41 @@ export const App = () => {
     lng: 139.763328,
   };
 
-
-  // map, maps で受け取ると変数が被るので object で受け取っています
-  const handleApiLoaded = (object) => {
-    setMap(object.map);
-    setMaps(object.maps);
+  const addPinCoord = () => {
+    setPinCoords([...pinCoords, { lat: center.lat, lng: center.lng }]);
   };
-  const setLatLng = ({ x, y, lat, lng, event }) => {
-    if (marker) {
-      marker.setMap(null);
+
+  const handleApiLoaded = ({ map, maps }) => {
+    setMap(map);
+    setMaps(maps);
+    const newMarkers = pinCoords.map((coord) => {
+      return new maps.Marker({
+        map,
+        position: coord,
+      });
+    });
+    setMarkers(newMarkers);
+  };
+
+  const setLatLng = ({ lat, lng }) => {
+    if (markers[pinNum - 1]) {
+      markers[pinNum - 1].setMap(null);
     }
     const latLng = {
       lat,
       lng,
     };
-    setMarker(new maps.Marker({
-      map,
-      position: latLng,
-    }));
+    const newMarkers = markers.map((marker, index) => {
+      if (index === pinNum - 1) {
+        return new maps.Marker({
+          map,
+          position: latLng,
+        });
+      }
+      return marker;
+    });
+    setMarkers(newMarkers);
+    setPinCoords(pinCoords.map((coord, index) => (index === pinNum - 1 ? latLng : coord)));
     map.panTo(latLng);
   };
 

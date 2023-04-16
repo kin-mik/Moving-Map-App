@@ -37,15 +37,7 @@ export const LeftMenu = (props) => {
                     {/* {pinBoxes} */}
                 </TabPanel>
                 <TabPanel>
-                    {/* {pinLocs.map((pinLoc, index) => {
-                        const marker = new google.maps.Marker({
-                            position: pinLoc,
-                            map: map,
-                        })
-                        return (
-                            <PinBox key={pinLoc} index={index} />
-                        );
-                    })} */}
+                    {searchBoxes}
 
 
                 </TabPanel>
