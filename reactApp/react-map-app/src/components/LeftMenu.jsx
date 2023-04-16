@@ -7,7 +7,7 @@ import "react-tabs/style/react-tabs.css";
 export const LeftMenu = (props) => {
     const { 
         // pinLocs,
-         pinNum, onChange } = props;
+         pinNum, onChange, addPinCoord } = props;
     const searchBoxes = Array(parseInt(pinNum))
         .fill()
         .map((_, index) => <SearchBox key={index} index={index} />);
@@ -25,6 +25,7 @@ export const LeftMenu = (props) => {
                     <input type="number" min="1" max="5" size="5" value={pinNum} onChange={onChange}
                     />
                     点
+                    <button onClick={addPinCoord}>決定</button>
                 </div>
             </div>
             <Tabs >

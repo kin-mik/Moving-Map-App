@@ -21,6 +21,7 @@ export const App = () => {
     setPinCoords(
       Array.from({ length: num }, () => ({ lat: center.lat, lng: center.lng }))
     );
+    setMarkers([]);
   };
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
@@ -48,9 +49,21 @@ export const App = () => {
     lat: 35.675069,
     lng: 139.763328,
   };
-
   const addPinCoord = () => {
-    setPinCoords([...pinCoords, { lat: center.lat, lng: center.lng }]);
+    if (pinCoords.length < pinNum) {
+      console.log(pinCoords.length);
+      setPinCoords([...pinCoords, { lat: center.lat, lng: center.lng }]);
+      setMarkers((markers) => {
+        const newMarkers = [...markers];
+        newMarkers.push(
+          new maps.Marker({
+            map,
+            position: { lat: center.lat, lng: center.lng },
+          })
+        );
+        return newMarkers;
+      });
+    }
   };
 
   const handleApiLoaded = ({ map, maps }) => {
@@ -73,19 +86,24 @@ export const App = () => {
       lat,
       lng,
     };
-    const newMarkers = markers.map((marker, index) => {
-      if (index === pinNum - 1) {
-        return new maps.Marker({
-          map,
-          position: latLng,
-        });
-      }
-      return marker;
+    setMarkers((markers) => {
+      const newMarkers = markers.map((marker, index) => {
+        if (index === pinNum - 1) {
+          console.log(index);
+          return new maps.Marker({
+            map,
+            position: latLng,
+          });
+        }
+        return marker;
+      });
+      return newMarkers;
     });
-    setMarkers(newMarkers);
     setPinCoords(pinCoords.map((coord, index) => (index === pinNum - 1 ? latLng : coord)));
+  
     map.panTo(latLng);
   };
+  
 
 
   return (
@@ -96,6 +114,7 @@ export const App = () => {
           // pinLocs={pinLocs}
           pinNum={pinNum}
           onChange={onChangePinNum}
+          addPinCoord={addPinCoord}
         />
         <div className="main-contents">
           <div className="input-area">
