@@ -5,13 +5,16 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
-    const { pinNum, onChange } = props;
+    const { 
+        // pinLocs,
+         pinNum, onChange } = props;
     const searchBoxes = Array(parseInt(pinNum))
         .fill()
         .map((_, index) => <SearchBox key={index} index={index} />);
-    const pinBoxes = Array(parseInt(pinNum))
-        .fill()
-        .map((_, index) => <PinBox key={index} index={index} />);
+    // const pinBoxes = Array(parseInt(pinNum))
+    //     .fill()
+    //     .map((pinLoc, index) => <PinBox key={pinLoc} index={index} />); 
+
 
 
     return (
@@ -31,10 +34,20 @@ export const LeftMenu = (props) => {
                 </TabList>
 
                 <TabPanel>
-                    {pinBoxes}
+                    {/* {pinBoxes} */}
                 </TabPanel>
                 <TabPanel>
-                    {searchBoxes}
+                    {/* {pinLocs.map((pinLoc, index) => {
+                        const marker = new google.maps.Marker({
+                            position: pinLoc,
+                            map: map,
+                        })
+                        return (
+                            <PinBox key={pinLoc} index={index} />
+                        );
+                    })} */}
+
+
                 </TabPanel>
             </Tabs>
 
