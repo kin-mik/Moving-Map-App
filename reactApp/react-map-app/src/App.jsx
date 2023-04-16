@@ -9,20 +9,11 @@ import "./styles.css";
 
 export const App = () => {
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
-  const [pinCoords, setPinCoords] = useState(
-    Array.from({ length: 2 }, () => ({ lat: 35.681167, lng: 139.767052 }))
-  );
+  const [pinCoords, setPinCoords] = useState([{ lat: 35.681167, lng: 139.767052 }]);
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
   const [pinNum, setPinNum] = useState(3);
-  const onChangePinNum = (e) => {
-    const num = parseInt(e.target.value, 10);
-    setPinNum(num);
-    setPinCoords(
-      Array.from({ length: num }, () => ({ lat: center.lat, lng: center.lng }))
-    );
-    setMarkers([]);
-  };
+  const onChangePinNum = (e) => setPinNum(e.target.value);
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -49,61 +40,29 @@ export const App = () => {
     lat: 35.675069,
     lng: 139.763328,
   };
-  const addPinCoord = () => {
-    if (pinCoords.length < pinNum) {
-      console.log(pinCoords.length);
-      setPinCoords([...pinCoords, { lat: center.lat, lng: center.lng }]);
-      setMarkers((markers) => {
-        const newMarkers = [...markers];
-        newMarkers.push(
-          new maps.Marker({
-            map,
-            position: { lat: center.lat, lng: center.lng },
-          })
-        );
-        return newMarkers;
-      });
-    }
-  };
 
-  const handleApiLoaded = ({ map, maps }) => {
-    setMap(map);
-    setMaps(maps);
-    const newMarkers = pinCoords.map((coord) => {
-      return new maps.Marker({
-        map,
-        position: coord,
-      });
-    });
-    setMarkers(newMarkers);
+  const handleApiLoaded = (object) => {
+    setMap(object.map);
+    setMaps(object.maps);
   };
-
+  
   const setLatLng = ({ lat, lng }) => {
-    if (markers[pinNum - 1]) {
-      markers[pinNum - 1].setMap(null);
-    }
-    const latLng = {
-      lat,
-      lng,
-    };
-    setMarkers((markers) => {
-      const newMarkers = markers.map((marker, index) => {
-        if (index === pinNum - 1) {
-          console.log(index);
-          return new maps.Marker({
-            map,
-            position: latLng,
-          });
-        }
-        return marker;
-      });
-      return newMarkers;
-    });
-    setPinCoords(pinCoords.map((coord, index) => (index === pinNum - 1 ? latLng : coord)));
+      // if (markers) {
+      //   markers.setMap(null);
+      // }
+      const latLng = {
+        lat,
+        lng,
+      };
+      const marker = new maps.Marker({
+        map,
+        position: latLng,
+      })
+
+     setMaps(...markers, marker);
+      map.panTo(latLng);
   
-    map.panTo(latLng);
   };
-  
 
 
   return (
@@ -114,7 +73,6 @@ export const App = () => {
           // pinLocs={pinLocs}
           pinNum={pinNum}
           onChange={onChangePinNum}
-          addPinCoord={addPinCoord}
         />
         <div className="main-contents">
           <div className="input-area">
@@ -132,6 +90,7 @@ export const App = () => {
               zoom={zoom}
               onClick={setLatLng}
               onGoogleApiLoaded={handleApiLoaded}
+              yesIWantToUseGoogleMapApiInternals={true}
             />
           </div>
         </div>
