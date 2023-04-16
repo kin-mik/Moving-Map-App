@@ -6,19 +6,20 @@ import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
     const { pinNum, onChange } = props;
-    const [value, setValue] = React.useState(0);
+    const searchBoxes = Array(parseInt(pinNum))
+        .fill()
+        .map((_, index) => <SearchBox key={index} index={index} />);
+    const pinBoxes = Array(parseInt(pinNum))
+        .fill()
+        .map((_, index) => <PinBox key={index} index={index} />);
 
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
-    const n = 3;
 
     return (
         <div className="left-menu">
             <div className="left-head">
                 <div>
                     ピンの数：
-                    <input type="number" min="0" max="5" size="5" value={pinNum} //onChange={onChange}
+                    <input type="number" min="1" max="5" size="5" value={pinNum} onChange={onChange}
                     />
                     点
                 </div>
@@ -30,16 +31,10 @@ export const LeftMenu = (props) => {
                 </TabList>
 
                 <TabPanel>
-                    {[...Array(n)].map((_, index) => (
-                        <PinBox index={index} />
-                        
-                    ))}
-
+                    {pinBoxes}
                 </TabPanel>
                 <TabPanel>
-                    {[...Array(n)].map((_, index) => (
-                        <SearchBox index={index} />
-                    ))}
+                    {searchBoxes}
                 </TabPanel>
             </Tabs>
 
