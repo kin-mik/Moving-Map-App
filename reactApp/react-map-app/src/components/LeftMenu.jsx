@@ -5,16 +5,14 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
-    const { pinNum, onChange } = props;
+    const { pinNum, searchValues, setSearchValues, pinValue, setPinValue, onChange } = props;
 
-    const [searchValue, setSearchValue] = useState(new Array(pinNum).fill(''));
-    const [pinValue, setPinValue] = useState(new Array(pinNum).fill(''));
     const handlePin = (index) => {
 
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode(
             {
-                address: searchValue[index],
+                address: searchValues[index],
             },
             (results, status) => {
                 if (status === "OK") {
@@ -24,7 +22,6 @@ export const LeftMenu = (props) => {
                     newPinValue[index] = { lat, lng }
                     console.log(newPinValue);
                     setPinValue(newPinValue);
-                    //   console.log(index)
                 } else {
                     alert("Geocode was not successful for the following reason: " + status);
                 }
@@ -34,13 +31,13 @@ export const LeftMenu = (props) => {
 
 
     const handleSearchBoxChange = (index) => (e) => {
-        const newSearchValue = [...searchValue];
-        newSearchValue[index] = e.target.value;
-        setSearchValue(newSearchValue);
+        const newSearchValues = [...searchValues];
+        newSearchValues[index] = e.target.value;
+        setSearchValues(newSearchValues);
     }
     const searchBoxes = Array(parseInt(pinNum))
         .fill()
-        .map((_, index) => <SearchBox key={index} index={index} searchValue={searchValue} handleSearchBoxChange={handleSearchBoxChange} handlePin={handlePin} />);
+        .map((_, index) => <SearchBox key={index} index={index} searchValues={searchValues} handleSearchBoxChange={handleSearchBoxChange} handlePin={handlePin} />);
 
     return (
         <div className="left-menu">

@@ -13,6 +13,8 @@ export const App = () => {
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
   const [pinNum, setPinNum] = useState(3);
+  const [searchValues, setSearchValues] = useState(new Array(pinNum).fill(''));
+  const [pinValue, setPinValue] = useState(new Array(pinNum).fill(''));
   const onChangePinNum = (e) => setPinNum(e.target.value);
   const mapStyles = {
     height: "100%",
@@ -44,10 +46,12 @@ export const App = () => {
       <Header />
       <div className="container">
         <LeftMenu
-          // pinLocs={pinLocs}
           pinNum={pinNum}
+          searchValues={searchValues}
+          setSearchValues={setSearchValues}
+          pinValue={pinValue}
+          setPinValue={setPinValue}
           onChange={onChangePinNum}
-          handleSearch={handleSearch}
         />
         <div className="main-contents">
           <div className="input-area">
