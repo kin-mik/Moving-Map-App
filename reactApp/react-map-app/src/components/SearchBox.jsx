@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 export const SearchBox = (props) => {
-    const { index , searchValue, setSearchValue, handlePin} = props;
+    const { index ,searchValue, handleSearchBoxChange ,handlePin} = props;
     const [selectedOption, setSelectedOption] = useState("");
-
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
     };
@@ -12,8 +11,8 @@ export const SearchBox = (props) => {
         <div className="search-box">
             <p className="title">{`地点${index + 1}`}</p>
             <input placeholder="地名を検索"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)} />
+                value={searchValue[index]}
+                onChange={handleSearchBoxChange(index)} />
             <button onClick={()=> handlePin(index)}>検索</button>
             <button>解除</button>
             <div>
