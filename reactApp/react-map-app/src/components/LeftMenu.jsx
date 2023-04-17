@@ -5,41 +5,39 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
-    const { 
-        // pinLocs,
-         pinNum, onChange } = props;
-
-    // const pinBoxes = Array(parseInt(pinNum))
-    //     .fill()
-    //     .map((pinLoc, index) => <PinBox key={pinLoc} index={index} />); 
-    const [searchValue, setSearchValue] = useState("");
-    const [pinValue, setPinValue] = useState(new Array(pinNum).fill(''));
+    const { pinNum, searchValues, setSearchValues, pinValue, setPinValue, onChange } = props;
 
     const handlePin = (index) => {
+
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode(
-          {
-            address: searchValue,
-          },
-          (results, status) => {
-            if (status === "OK") {
-              const lat = results[0].geometry.location.lat();
-              const lng = results[0].geometry.location.lng();
-              const newPinNalue = [...pinValue]
-              newPinNalue[index] = { lat, lng }
-              console.log(newPinNalue)
-              setPinValue(newPinNalue);
-              console.log(index)
-            } else {
-              alert("Geocode was not successful for the following reason: " + status);
+            {
+                address: searchValues[index],
+            },
+            (results, status) => {
+                if (status === "OK") {
+                    const lat = results[0].geometry.location.lat();
+                    const lng = results[0].geometry.location.lng();
+                    const newPinValue = [...pinValue]
+                    newPinValue[index] = { lat, lng }
+                    console.log(newPinValue);
+                    setPinValue(newPinValue);
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
             }
-          }
         );
-      };
+    };
 
-      const searchBoxes = Array(parseInt(pinNum))
-      .fill()
-      .map((_, index) => <SearchBox key={index} index={index} searchValue={searchValue} setSearchValue={setSearchValue} handlePin={handlePin}/>);
+
+    const handleSearchBoxChange = (index) => (e) => {
+        const newSearchValues = [...searchValues];
+        newSearchValues[index] = e.target.value;
+        setSearchValues(newSearchValues);
+    }
+    const searchBoxes = Array(parseInt(pinNum))
+        .fill()
+        .map((_, index) => <SearchBox key={index} index={index} searchValues={searchValues} handleSearchBoxChange={handleSearchBoxChange} handlePin={handlePin} />);
 
     return (
         <div className="left-menu">

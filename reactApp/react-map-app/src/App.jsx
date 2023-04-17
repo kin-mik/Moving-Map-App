@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import GoogleMapReact from "google-map-react";
+// import GoogleMapReact from "google-map-react";
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { Header } from "./components/Header";
 import { LeftMenu } from "./components/LeftMenu";
 // import MainContent from "./MainContent";
@@ -9,15 +10,16 @@ import "./styles.css";
 
 export const App = () => {
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
-  const [pinCoords, setPinCoords] = useState([{ lat: 35.681167, lng: 139.767052 }]);
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
-  const [pinValue, setPinValue] = useState([]);
   const [pinNum, setPinNum] = useState(3);
+  const [searchValues, setSearchValues] = useState(new Array(pinNum).fill(''));
+  const [pinValue, setPinValue] = useState(new Array(pinNum).fill(''));
   const onChangePinNum = (e) => setPinNum(e.target.value);
-  const [map, setMap] = useState(null);
-  const [maps, setMaps] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  const mapStyles = {
+    height: "100%",
+    width: "100%"
+  };
 
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
@@ -37,33 +39,6 @@ export const App = () => {
       }
     );
   };
-  // const defaultLatLng = {
-  //   lat: 35.675069,
-  //   lng: 139.763328,
-  // };
-
-  // const handleApiLoaded = (object) => {
-  //   setMap(object.map);
-  //   setMaps(object.maps);
-  // };
-  
-  // const setLatLng = ({ lat, lng }) => {
-  //     // if (markers) {
-  //     //   markers.setMap(null);
-  //     // }
-  //     const latLng = {
-  //       lat,
-  //       lng,
-  //     };
-  //     const marker = new maps.Marker({
-  //       map,
-  //       position: latLng,
-  //     })
-
-  //    setMaps(...markers, marker);
-  //     map.panTo(latLng);
-  
-  // };
 
 
   return (
@@ -71,10 +46,12 @@ export const App = () => {
       <Header />
       <div className="container">
         <LeftMenu
-          // pinLocs={pinLocs}
           pinNum={pinNum}
+          searchValues={searchValues}
+          setSearchValues={setSearchValues}
+          pinValue={pinValue}
+          setPinValue={setPinValue}
           onChange={onChangePinNum}
-          handleSearch={handleSearch}
         />
         <div className="main-contents">
           <div className="input-area">
@@ -86,14 +63,24 @@ export const App = () => {
             <button onClick={handleSearch}>検索</button>
           </div>
           <div className="map-area">
-            <GoogleMapReact
+
+
+            <LoadScript
+              googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} >
+              <GoogleMap
+                mapContainerStyle={mapStyles}
+                center={center}
+                zoom={zoom}
+              />
+            </LoadScript>
+            {/* <GoogleMapReact
               bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
               center={center}
               zoom={zoom}
               // onClick={setLatLng}
               // onGoogleApiLoaded={handleApiLoaded}
-              // yesIWantToUseGoogleMapApiInternals={true}
-            />
+              yesIWantToUseGoogleMapApiInternals={true}
+            /> */}
           </div>
         </div>
       </div>
