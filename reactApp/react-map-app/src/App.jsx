@@ -9,10 +9,15 @@ import "./styles.css";
 
 export const App = () => {
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
+  const [pinCoords, setPinCoords] = useState([{ lat: 35.681167, lng: 139.767052 }]);
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
+  const [pinValue, setPinValue] = useState([]);
   const [pinNum, setPinNum] = useState(3);
   const onChangePinNum = (e) => setPinNum(e.target.value);
+  const [map, setMap] = useState(null);
+  const [maps, setMaps] = useState(null);
+  const [markers, setMarkers] = useState([]);
 
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
@@ -32,15 +37,44 @@ export const App = () => {
       }
     );
   };
+  // const defaultLatLng = {
+  //   lat: 35.675069,
+  //   lng: 139.763328,
+  // };
+
+  // const handleApiLoaded = (object) => {
+  //   setMap(object.map);
+  //   setMaps(object.maps);
+  // };
+  
+  // const setLatLng = ({ lat, lng }) => {
+  //     // if (markers) {
+  //     //   markers.setMap(null);
+  //     // }
+  //     const latLng = {
+  //       lat,
+  //       lng,
+  //     };
+  //     const marker = new maps.Marker({
+  //       map,
+  //       position: latLng,
+  //     })
+
+  //    setMaps(...markers, marker);
+  //     map.panTo(latLng);
+  
+  // };
 
 
   return (
     <>
-      <Header/>
+      <Header />
       <div className="container">
         <LeftMenu
+          // pinLocs={pinLocs}
           pinNum={pinNum}
           onChange={onChangePinNum}
+          handleSearch={handleSearch}
         />
         <div className="main-contents">
           <div className="input-area">
@@ -53,9 +87,12 @@ export const App = () => {
           </div>
           <div className="map-area">
             <GoogleMapReact
-              // bootstrapURLKeys={{ key: "AIzaSyAMQiUaZvE2RY8GL-LkNVK6l8jV3lWG0Z8" }}
+              bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
               center={center}
               zoom={zoom}
+              // onClick={setLatLng}
+              // onGoogleApiLoaded={handleApiLoaded}
+              // yesIWantToUseGoogleMapApiInternals={true}
             />
           </div>
         </div>
