@@ -12,7 +12,8 @@ export const SearchBox = (props) => {
             <p className="title">{`地点${index + 1}`}</p>
             <input placeholder="地名を検索"
                 value={searchValues[index]}
-                onChange={handleSearchBoxChange(index)} />
+                onChange={handleSearchBoxChange(index)}
+                 />
             <button onClick={()=> handlePin(index)}>検索</button>
             <button>解除</button>
             <div>
