@@ -51,7 +51,7 @@ export const LeftMenu = (props) => {
     }
 
 
-    
+    console.log(pinMax);
     const searchBoxes = Array(parseInt(pinMax)).fill().map((_, index) => {
         if (index < pinNum) {
             return (
