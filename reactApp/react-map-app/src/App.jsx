@@ -69,9 +69,7 @@ const MemoizedGoogleMap = React.memo(({ locations }) => {
   //           <Circle center={item.location} radius={1000} options={circleOptions} />
   //         </div>
   //       );
-
   //     })
-
   //   );
   // }, (prevProps, nextProps) => {
   //   return prevProps.locations === nextProps.locations;
