@@ -6,8 +6,12 @@ import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
     const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, onChange } = props;
-
+    const [selectedOption, setSelectedOption] = useState("");
+    const handleChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
     const handlePin = (index) => {
+        if (searchValues[index] !== '') {
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode(
             {
@@ -29,9 +33,9 @@ export const LeftMenu = (props) => {
                             "lng": lng
                         }
                     }
-                    // console.log(newLocations);
+                    console.log(newLocations);
                     setLocations(newLocations);
-                    
+
 
 
 
@@ -40,7 +44,7 @@ export const LeftMenu = (props) => {
                     alert("Geocode was not successful for the following reason: " + status);
                 }
             }
-        );
+        );}
     };
 
 
@@ -51,7 +55,6 @@ export const LeftMenu = (props) => {
     }
 
 
-    console.log(pinMax);
     const searchBoxes = Array(parseInt(pinMax)).fill().map((_, index) => {
         if (index < pinNum) {
             return (
@@ -80,7 +83,6 @@ export const LeftMenu = (props) => {
 
                 <TabPanel>
                     {searchBoxes}
-
 
                 </TabPanel>
                 <TabPanel>
