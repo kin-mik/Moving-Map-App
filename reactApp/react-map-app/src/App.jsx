@@ -55,28 +55,6 @@ const MemoizedGoogleMap = React.memo(({ locations }) => {
   });
 });
 
-  // useEffect(() => {
-  //   setShowLocations(locations.some(loc => loc !== ''));
-  // }, [locations]);
-
-  // const MemoizedGoogleMap = React.memo(({ locations }) => {
-  //   return (
-  //     locations.filter(Boolean).map((item, index) => {
-  //       console.log(locations);
-  //       return (
-  //         <div key={index}>
-  //           <Marker position={item.location} />
-  //           <Circle center={item.location} radius={1000} options={circleOptions} />
-  //         </div>
-  //       );
-  //     })
-  //   );
-  // }, (prevProps, nextProps) => {
-  //   return prevProps.locations === nextProps.locations;
-  // });
-
-  
-
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
     const geocoder = new window.google.maps.Geocoder();
