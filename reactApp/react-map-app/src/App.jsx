@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 // import GoogleMapReact from "google-map-react";
 import { GoogleMap, LoadScript, Marker, Circle } from '@react-google-maps/api';
 import { Header } from "./components/Header";
@@ -18,7 +18,7 @@ export const App = () => {
   const [pinValue, setPinValue] = useState(new Array(pinMax).fill(''));
   // const [locations, setLocations] = useState([]);
   const [locations, setLocations] = useState(new Array(pinMax).fill(''));
-  const [showLocations, setShowLocations] = useState(false);
+  // const [showLocations, setShowLocations] = useState(false);
   const onChangePinNum = (e) => setPinNum(e.target.value);
   const mapStyles = {
     height: "100%",
@@ -38,6 +38,46 @@ export const App = () => {
     zIndex: 1,
   };
 
+const MemoizedGoogleMap = React.memo(({ locations }) => {
+  const memoizedLocations = React.useMemo(
+    () => locations.filter(Boolean),
+    [locations]
+  );
+
+  return memoizedLocations.map((item, index) => {
+    console.log(locations);
+    return (
+      <div key={index}>
+        <Marker position={item.location} />
+        <Circle center={item.location} radius={1000} options={circleOptions} />
+      </div>
+    );
+  });
+});
+
+  // useEffect(() => {
+  //   setShowLocations(locations.some(loc => loc !== ''));
+  // }, [locations]);
+
+  // const MemoizedGoogleMap = React.memo(({ locations }) => {
+  //   return (
+  //     locations.filter(Boolean).map((item, index) => {
+  //       console.log(locations);
+  //       return (
+  //         <div key={index}>
+  //           <Marker position={item.location} />
+  //           <Circle center={item.location} radius={1000} options={circleOptions} />
+  //         </div>
+  //       );
+
+  //     })
+
+  //   );
+  // }, (prevProps, nextProps) => {
+  //   return prevProps.locations === nextProps.locations;
+  // });
+
+  
 
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
@@ -72,7 +112,6 @@ export const App = () => {
           setPinValue={setPinValue}
           locations={locations}
           setLocations={setLocations}
-          setShowLocations={setShowLocations}
           onChange={onChangePinNum}
         />
         <div className="main-contents">
@@ -86,52 +125,13 @@ export const App = () => {
           </div>
           <div className="map-area">
 
-
             <LoadScript
-              googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} >
-              <GoogleMap
-                mapContainerStyle={mapStyles}
-                center={center}
-                zoom={zoom}>
-                {
-                  locations.filter(Boolean).map((item, index) => {
-                    // console.log(item.location);
-                    if (locations[index]){
-                      // setSearchValue(false)
-                      console.log(locations);
-                      return (
-                        <div key={item.name}>
-                          <Marker position={item.location} />
-                          <Circle center={item.location} radius={1000} options={circleOptions} />
-                        </div>
-                      )
-                      
-                    }}
-                  )
-                //     return (
-                //       <div key={item.name}>
-                //         <Marker position={item.location} />
-                //         <Circle center={item.location} radius={1000} options={circleOptions} />
-                //       </div>
-                //     )
-                //   })
-
-
-                //   const searchBoxes = Array(parseInt(pinMax)).fill().map((_, index) => {
-                //     if (index < pinNum) {
-                //         return (
-                //             <SearchBox key={index} index={index} searchValues={searchValues} handleSearchBoxChange={handleSearchBoxChange} handlePin={handlePin} />
-                //         );
-                //     }
-                // }
-                // );
-
-
-
-                }
+              googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+            >
+              <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={zoom}>
+              {<MemoizedGoogleMap locations={locations} />}
               </GoogleMap>
             </LoadScript>
-
           </div>
         </div>
       </div>
