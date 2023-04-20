@@ -38,22 +38,25 @@ export const App = () => {
     zIndex: 1,
   };
 
-const MemoizedGoogleMap = React.memo(({ locations }) => {
-  const memoizedLocations = React.useMemo(
-    () => locations.filter(Boolean),
-    [locations]
-  );
-
-  return memoizedLocations.map((item, index) => {
-    console.log(locations);
-    return (
-      <div key={index}>
-        <Marker position={item.location} />
-        <Circle center={item.location} radius={1000} options={circleOptions} />
-      </div>
+  const MemoizedGoogleMap = React.memo(({ locations }) => {
+    const memoizedLocations = React.useMemo(
+      () => locations.filter(Boolean),
+      [locations]
     );
+  
+    return memoizedLocations.map((item, index) => {
+      console.log(locations);
+      return (
+        <div key={index}>
+          <Marker position={item.location} />
+          <Circle center={item.location} radius={1000} options={circleOptions} />
+        </div>
+      );
+    });
+  }, (prevProps, nextProps) => {
+    // locationsが同じ場合は再レンダリングしない
+    return prevProps.locations === nextProps.locations;
   });
-});
 
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
