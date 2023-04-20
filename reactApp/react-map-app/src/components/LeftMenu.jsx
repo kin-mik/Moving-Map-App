@@ -6,10 +6,6 @@ import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
     const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, onChange } = props;
-    const [selectedOption, setSelectedOption] = useState("");
-    const handleChange = (e) => {
-        setSelectedOption(e.target.value);
-    };
     const handlePin = (index) => {
         if (searchValues[index] !== '') {
         const geocoder = new window.google.maps.Geocoder();
@@ -35,10 +31,6 @@ export const LeftMenu = (props) => {
                     }
                     console.log(newLocations);
                     setLocations(newLocations);
-
-
-
-
 
                 } else {
                     alert("Geocode was not successful for the following reason: " + status);
