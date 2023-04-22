@@ -99,6 +99,7 @@ export const App = () => {
         <div className="main-contents">
           <div className="input-area">
             <input
+            className="search-input"
               placeholder="地図を移動"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}

@@ -69,7 +69,7 @@ export const LeftMenu = (props) => {
             <div className="left-head">
                 <div>
                     ピンの数：
-                    <input type="number" min="1" max={pinMax} size="5" value={pinNum} onChange={onChange}
+                    <input className="value-input" type="number" min="1" max={pinMax} size="5" value={pinNum} onChange={onChange}
                     />
                     点
                 </div>
