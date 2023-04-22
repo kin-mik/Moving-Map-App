@@ -6,6 +6,7 @@ import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
     const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, onChange } = props;
+
     const handlePin = (index) => {
         if (searchValues[index] !== '') {
             const geocoder = new window.google.maps.Geocoder();
@@ -27,7 +28,22 @@ export const LeftMenu = (props) => {
                             "location": {
                                 "lat": lat,
                                 "lng": lng
+                            },
+                            "radius" : 1000,
+                            "circleOptions" : {
+                                strokeColor: "#FF0000",
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                                fillColor: "#FF0000",
+                                fillOpacity: 0.2,
+                                clickable: false,
+                                draggable: false,
+                                editable: false,
+                                visible: true,
+                                radius: 30000,
+                                zIndex: 1
                             }
+
                         };
                         console.log(newLocations);
                         setLocations(newLocations);
