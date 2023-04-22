@@ -3,6 +3,7 @@ import React, { useState , useEffect} from "react";
 import { GoogleMap, LoadScript, Marker, Circle } from '@react-google-maps/api';
 import { Header } from "./components/Header";
 import { LeftMenu } from "./components/LeftMenu";
+import { MemoizedGoogleMap } from './components/MemoizedGoogleMap';
 // import MainContent from "./MainContent";
 import "./styles.css";
 
@@ -16,14 +17,16 @@ export const App = () => {
   const [pinNum, setPinNum] = useState(3);
   const [searchValues, setSearchValues] = useState(new Array(pinMax).fill(''));
   const [pinValue, setPinValue] = useState(new Array(pinMax).fill(''));
-  // const [locations, setLocations] = useState([]);
   const [locations, setLocations] = useState(new Array(pinMax).fill(''));
-  // const [showLocations, setShowLocations] = useState(false);
+  const handleAddLocation = (location) => {
+    setLocations((prevLocations) => [...prevLocations, { location }]);
+  };
   const onChangePinNum = (e) => setPinNum(e.target.value);
   const mapStyles = {
     height: "100%",
     width: "100%"
   };
+
   const circleOptions = {
     strokeColor: "#FF0000",
     strokeOpacity: 0.8,
@@ -38,22 +41,25 @@ export const App = () => {
     zIndex: 1,
   };
 
-const MemoizedGoogleMap = React.memo(({ locations }) => {
-  const memoizedLocations = React.useMemo(
-    () => locations.filter(Boolean),
-    [locations]
-  );
-
-  return memoizedLocations.map((item, index) => {
-    console.log(locations);
-    return (
-      <div key={index}>
-        <Marker position={item.location} />
-        <Circle center={item.location} radius={1000} options={circleOptions} />
-      </div>
-    );
-  });
-});
+  // const MemoizedGoogleMap = React.memo(({ locations }) => {
+  //   const memoizedLocations = React.useMemo(
+  //     () => locations.filter(Boolean),
+  //     [locations]
+  //   );
+  
+  //   return memoizedLocations.map((item, index) => {
+  //     console.log(locations);
+  //     return (
+  //       <div key={index}>
+  //         <Marker position={item.location} />
+  //         <Circle center={item.location} radius={1000} options={circleOptions} />
+  //       </div>
+  //     );
+  //   });
+  // }, (prevProps, nextProps) => {
+  //   // locationsが同じ場合は再レンダリングしない
+  //   return prevProps.locations === nextProps.locations;
+  // });
 
   // 入力された地名をGeocoding APIを使用して経度緯度に変換し、center座標を更新
   const handleSearch = () => {
@@ -105,7 +111,16 @@ const MemoizedGoogleMap = React.memo(({ locations }) => {
               googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
             >
               <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={zoom}>
-              {<MemoizedGoogleMap locations={locations} />}
+              <MemoizedGoogleMap locations={locations} />
+              {/* {locations.filter(Boolean).map((location, index) => (
+            <Circle
+              key={index}
+              center={location.location}
+              radius={1000}
+              options={circleOptions}
+            />
+          ))} */}
+      {/* <LocationForm onAddLocation={handleAddLocation} /> */}
               </GoogleMap>
             </LoadScript>
           </div>

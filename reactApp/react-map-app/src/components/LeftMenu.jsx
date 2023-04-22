@@ -6,45 +6,54 @@ import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
     const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, onChange } = props;
-    const [selectedOption, setSelectedOption] = useState("");
-    const handleChange = (e) => {
-        setSelectedOption(e.target.value);
-    };
+
     const handlePin = (index) => {
         if (searchValues[index] !== '') {
-        const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode(
-            {
-                address: searchValues[index],
-            },
-            (results, status) => {
-                if (status === "OK") {
-                    const lat = results[0].geometry.location.lat();
-                    const lng = results[0].geometry.location.lng();
-                    const newPinValue = [...pinValue];
-                    newPinValue[index] = { lat, lng };
-                    // console.log(newPinValue);
-                    setPinValue(newPinValue);
-                    const newLocations = [...locations];
-                    newLocations[index] = {
-                        "name": searchValues[index],
-                        "location": {
-                            "lat": lat,
-                            "lng": lng
-                        }
-                    }
-                    console.log(newLocations);
-                    setLocations(newLocations);
+            const geocoder = new window.google.maps.Geocoder();
+            geocoder.geocode(
+                {
+                    address: searchValues[index],
+                },
+                (results, status) => {
+                    if (status === "OK") {
+                        const lat = results[0].geometry.location.lat();
+                        const lng = results[0].geometry.location.lng();
+                        const newPinValue = [...pinValue];
+                        newPinValue[index] = { lat, lng };
+                        // console.log(newPinValue);
+                        setPinValue(newPinValue);
+                        const newLocations = [...locations];
+                        newLocations[index] = {
+                            "name": searchValues[index],
+                            "location": {
+                                "lat": lat,
+                                "lng": lng
+                            },
+                            "radius" : 1000,
+                            "circleOptions" : {
+                                strokeColor: "#FF0000",
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                                fillColor: "#FF0000",
+                                fillOpacity: 0.2,
+                                clickable: false,
+                                draggable: false,
+                                editable: false,
+                                visible: true,
+                                radius: 30000,
+                                zIndex: 1
+                            }
 
+                        };
+                        console.log(newLocations);
+                        setLocations(newLocations);
 
-
-
-
-                } else {
-                    alert("Geocode was not successful for the following reason: " + status);
+                    } else {
+                        alert("Geocode was not successful for the following reason: " + status);
+                    };
                 }
-            }
-        );}
+            );
+        };
     };
 
 
@@ -52,17 +61,7 @@ export const LeftMenu = (props) => {
         const newSearchValues = [...searchValues];
         newSearchValues[index] = e.target.value;
         setSearchValues(newSearchValues);
-    }
-
-
-    const searchBoxes = Array(parseInt(pinMax)).fill().map((_, index) => {
-        if (index < pinNum) {
-            return (
-                <SearchBox key={index} index={index} searchValues={searchValues} handleSearchBoxChange={handleSearchBoxChange} handlePin={handlePin} />
-            );
-        }
-    }
-    );
+    };
 
 
     return (
@@ -82,10 +81,23 @@ export const LeftMenu = (props) => {
                 </TabList>
 
                 <TabPanel>
-                    {searchBoxes}
+                    {/* {searchBoxes} */}
+                    {searchValues.map((_, index) => {
+                        return (
+                            <SearchBox
+                                key={index}
+                                index={index}
+                                searchValues={searchValues}
+                                handleSearchBoxChange={handleSearchBoxChange}
+                                handlePin={handlePin}
+                                disabled={index >= pinNum}
+                            />
+                        );
+                    })}
 
                 </TabPanel>
                 <TabPanel>
+
                     {/* {pinBoxes} */}
 
                 </TabPanel>
