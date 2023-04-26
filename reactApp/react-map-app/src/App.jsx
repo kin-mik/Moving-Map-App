@@ -12,12 +12,13 @@ import "./styles.css";
 export const App = () => {
   const pinMax = 5;
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
-  const [zoom, setZoom] = useState(15);
+  const [zoom, setZoom] = useState(13);
   const [searchValue, setSearchValue] = useState("");
   const [pinNum, setPinNum] = useState(3);
   const [searchValues, setSearchValues] = useState(new Array(pinMax).fill(''));
   const [pinValue, setPinValue] = useState(new Array(pinMax).fill(''));
   const [locations, setLocations] = useState(new Array(pinMax).fill(''));
+  const [radiusValues, setRadiusValues] = useState(new Array(pinMax).fill(''));
   const handleAddLocation = (location) => {
     setLocations((prevLocations) => [...prevLocations, { location }]);
   };
@@ -94,6 +95,8 @@ export const App = () => {
           setPinValue={setPinValue}
           locations={locations}
           setLocations={setLocations}
+          radiusValues={radiusValues}
+          setRadiusValues={setRadiusValues}
           onChange={onChangePinNum}
         />
         <div className="main-contents">
