@@ -10,7 +10,6 @@ const MemoizedGoogleMap = React.memo(({ locations }) => {
   );
 
   return memoizedLocations.map((item, index) => {
-    console.log(locations);
     return (
       <div key={index}>
         <Marker position={item.location} />

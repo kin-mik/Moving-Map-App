@@ -5,7 +5,8 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 export const LeftMenu = (props) => {
-    const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, onChange } = props;
+    const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, radiusValues, setRadiusValues, onChange } = props;
+    const areaColor = new Array("#FF3B0D", "#1957FF", "#FF7B00", "#19FFB0", "#FFBA0D")
 
     const handlePin = (index) => {
         if (searchValues[index] !== '') {
@@ -20,7 +21,6 @@ export const LeftMenu = (props) => {
                         const lng = results[0].geometry.location.lng();
                         const newPinValue = [...pinValue];
                         newPinValue[index] = { lat, lng };
-                        // console.log(newPinValue);
                         setPinValue(newPinValue);
                         const newLocations = [...locations];
                         newLocations[index] = {
@@ -29,12 +29,12 @@ export const LeftMenu = (props) => {
                                 "lat": lat,
                                 "lng": lng
                             },
-                            "radius" : 1000,
+                            "radius" : parseInt(radiusValues[index])*1000,
                             "circleOptions" : {
-                                strokeColor: "#FF0000",
+                                strokeColor: areaColor[index],
                                 strokeOpacity: 0.8,
                                 strokeWeight: 2,
-                                fillColor: "#FF0000",
+                                fillColor: areaColor[index],
                                 fillOpacity: 0.2,
                                 clickable: false,
                                 draggable: false,
@@ -45,7 +45,6 @@ export const LeftMenu = (props) => {
                             }
 
                         };
-                        console.log(newLocations);
                         setLocations(newLocations);
 
                     } else {
@@ -61,6 +60,12 @@ export const LeftMenu = (props) => {
         const newSearchValues = [...searchValues];
         newSearchValues[index] = e.target.value;
         setSearchValues(newSearchValues);
+    };
+
+    const handleRadiusChange = (index) => (e) => {
+        const newRadiusValues = [...radiusValues];
+        newRadiusValues[index] = e.target.value;
+        setRadiusValues(newRadiusValues);
     };
 
 
@@ -88,7 +93,9 @@ export const LeftMenu = (props) => {
                                 key={index}
                                 index={index}
                                 searchValues={searchValues}
+                                radiusValues={radiusValues}
                                 handleSearchBoxChange={handleSearchBoxChange}
+                                handleRadiusChange={handleRadiusChange}
                                 handlePin={handlePin}
                                 disabled={index >= pinNum}
                             />
