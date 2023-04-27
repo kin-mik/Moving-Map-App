@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 // import GoogleMapReact from "google-map-react";
 import { GoogleMap, LoadScript, Marker, Circle } from '@react-google-maps/api';
 import { Header } from "./components/Header";
@@ -12,7 +12,7 @@ import "./styles.css";
 export const App = () => {
   const pinMax = 5;
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
-  const [zoom, setZoom] = useState(13);
+  const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
   const [pinNum, setPinNum] = useState(3);
   const [searchValues, setSearchValues] = useState(new Array(pinMax).fill(''));
@@ -28,26 +28,45 @@ export const App = () => {
     width: "100%"
   };
 
-  const circleOptions = {
-    strokeColor: "#FF0000",
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: "#FF0000",
-    fillOpacity: 0.35,
-    clickable: false,
-    draggable: false,
-    editable: false,
-    visible: true,
-    radius: 30000,
-    zIndex: 1,
-  };
+  useEffect(() => {
+    const calculateCenter = (locations) => {
+      const filteredLocations = locations.filter(location => location && location.location && location.location.lat && location.location.lng);
+      const lats = filteredLocations.map(location => location.location.lat).filter(lat => !isNaN(lat));
+      const lngs = filteredLocations.map(location => location.location.lng).filter(lng => !isNaN(lng));
+
+      if (lats.length > 1 && lngs.length > 1) {
+        const latMin = Math.min(...lats);
+        const latMax = Math.max(...lats);
+        const lngMin = Math.min(...lngs);
+        const lngMax = Math.max(...lngs);
+
+        const latAvg = (latMin + latMax) / 2;
+        const lngAvg = (lngMin + lngMax) / 2;
+
+        // Calculate the zoom level based on the distance between the min and max lat/lng values
+        const R = 6371; // Earth's radius in km
+        const dLat = (latMax - latMin) * Math.PI / 180;
+        const dLng = (lngMax - lngMin) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(latMin * Math.PI / 180) * Math.cos(latMax * Math.PI / 180) *
+          Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        const zoomLevel = Math.round(14 - Math.log(distance / Math.sqrt(2)) / Math.log(2));
+
+        setCenter({ lat: latAvg, lng: lngAvg });
+        setZoom(zoomLevel * 1.1);
+      }
+    };
+    calculateCenter(locations);
+  }, [locations]);
 
   // const MemoizedGoogleMap = React.memo(({ locations }) => {
   //   const memoizedLocations = React.useMemo(
   //     () => locations.filter(Boolean),
   //     [locations]
   //   );
-  
+
   //   return memoizedLocations.map((item, index) => {
   //     console.log(locations);
   //     return (
@@ -102,7 +121,7 @@ export const App = () => {
         <div className="main-contents">
           <div className="input-area">
             <input
-            className="search-input"
+              className="search-input"
               placeholder="地図を移動"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -115,16 +134,7 @@ export const App = () => {
               googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
             >
               <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={zoom}>
-              <MemoizedGoogleMap locations={locations} />
-              {/* {locations.filter(Boolean).map((location, index) => (
-            <Circle
-              key={index}
-              center={location.location}
-              radius={1000}
-              options={circleOptions}
-            />
-          ))} */}
-      {/* <LocationForm onAddLocation={handleAddLocation} /> */}
+                <MemoizedGoogleMap locations={locations} />
               </GoogleMap>
             </LoadScript>
           </div>

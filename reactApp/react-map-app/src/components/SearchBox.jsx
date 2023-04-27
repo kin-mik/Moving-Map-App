@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export const SearchBox = (props) => {
-    const { index, searchValues, radiusValues, handleSearchBoxChange, handleRadiusChange, handlePin, disabled } = props;
+    const { index, searchValues, radiusValues, handleSearchBoxChange, handleRadiusChange, handlePin, onClickLift, disabled } = props;
 
     return (
         <div className="search-box">
@@ -27,7 +27,7 @@ export const SearchBox = (props) => {
                     onChange={handleRadiusChange(index)} />
                 <span>km以内</span>
                 <button disabled={disabled} onClick={() => handlePin(index)}>検索</button>
-            <button disabled={disabled}>解除</button>
+            <button disabled={disabled} onClick={() => onClickLift(index)}>解除</button>
             </div>
         </div>
 

@@ -68,6 +68,19 @@ export const LeftMenu = (props) => {
         setRadiusValues(newRadiusValues);
     };
 
+    const onClickLift = (index) => {
+        const newSearchValues = [...searchValues];
+        newSearchValues[index] = "";
+        setSearchValues(newSearchValues);
+
+        const newRadiusValues = [...radiusValues];
+        newRadiusValues[index] = "";
+        setRadiusValues(newRadiusValues);
+
+        const newLocations = [...locations];
+        newLocations[index] = "";
+        setLocations(newLocations);
+      };
 
     return (
         <div className="left-menu">
@@ -97,6 +110,7 @@ export const LeftMenu = (props) => {
                                 handleSearchBoxChange={handleSearchBoxChange}
                                 handleRadiusChange={handleRadiusChange}
                                 handlePin={handlePin}
+                                onClickLift={onClickLift}
                                 disabled={index >= pinNum}
                             />
                         );
