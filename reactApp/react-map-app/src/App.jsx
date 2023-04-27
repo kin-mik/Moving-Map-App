@@ -12,7 +12,7 @@ import "./styles.css";
 export const App = () => {
   const pinMax = 5;
   const [center, setCenter] = useState({ lat: 35.681167, lng: 139.767052 });
-  const [zoom, setZoom] = useState(13);
+  const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
   const [pinNum, setPinNum] = useState(3);
   const [searchValues, setSearchValues] = useState(new Array(pinMax).fill(''));
@@ -42,7 +42,20 @@ export const App = () => {
 
         const latAvg = (latMin + latMax) / 2;
         const lngAvg = (lngMin + lngMax) / 2;
+
+        // Calculate the zoom level based on the distance between the min and max lat/lng values
+        const R = 6371; // Earth's radius in km
+        const dLat = (latMax - latMin) * Math.PI / 180;
+        const dLng = (lngMax - lngMin) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(latMin * Math.PI / 180) * Math.cos(latMax * Math.PI / 180) *
+          Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        const zoomLevel = Math.round(14 - Math.log(distance / Math.sqrt(2)) / Math.log(2));
+
         setCenter({ lat: latAvg, lng: lngAvg });
+        setZoom(zoomLevel * 1.1);
       }
     };
     calculateCenter(locations);
