@@ -116,15 +116,6 @@ export const App = () => {
             >
               <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={zoom}>
               <MemoizedGoogleMap locations={locations} />
-              {/* {locations.filter(Boolean).map((location, index) => (
-            <Circle
-              key={index}
-              center={location.location}
-              radius={1000}
-              options={circleOptions}
-            />
-          ))} */}
-      {/* <LocationForm onAddLocation={handleAddLocation} /> */}
               </GoogleMap>
             </LoadScript>
           </div>
