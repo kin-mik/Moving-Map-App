@@ -32,10 +32,10 @@ services:
     container_name: db
     restart: always
     environment:
-      MYSQL_DATABASE: your_mysql_database
-      MYSQL_USER: your_mysql_user
-      MYSQL_PASSWORD: your_mysql_password
-      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+    MYSQL_DATABASE: ${MYSQL_DATABASE}
+    MYSQL_USER: ${MYSQL_USER}
+    MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     ports:
