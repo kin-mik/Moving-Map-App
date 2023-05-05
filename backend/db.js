@@ -1,5 +1,5 @@
 require('dotenv').config({ path: './.env' });
-const mysql = require("mysql2");
+const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
     host: "db",
@@ -11,7 +11,6 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-// 新たに追加したSQLファイルを読み込む
 async function getHistory() {
     const connection = await pool.getConnection();
     const [rows] = await connection.execute('SELECT * FROM history');
@@ -29,4 +28,4 @@ async function addHistory(latitude, longitude, radius) {
     return result.insertId;
 }
 
-module.exports = pool.promise();
+module.exports = { getHistory, addHistory };
