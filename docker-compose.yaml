@@ -18,7 +18,7 @@ services:
     build: ./backend
     container_name: backend
     ports:
-      - "5001:5000"
+      - "5001:5001"
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -36,11 +36,10 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
     volumes:
-      - db_data:/var/lib/mysql
+      - ./backend/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
     ports:
-      - "3307:3306"
+      - "3307:3307"
 
 volumes:
   db_data:

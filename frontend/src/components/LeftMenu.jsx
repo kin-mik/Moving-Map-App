@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// import axios from 'axios';
+import React, { useState, useEffect } from "react";
 import { SearchBox } from "./SearchBox";
 import { PinBox } from "./PinBox";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -7,6 +8,21 @@ import "react-tabs/style/react-tabs.css";
 export const LeftMenu = (props) => {
     const { pinMax, pinNum, searchValues, setSearchValues, pinValue, setPinValue, locations, setLocations, radiusValues, setRadiusValues, onChange } = props;
     const areaColor = new Array("#FF3B0D", "#1957FF", "#FF7B00", "#19FFB0", "#FFBA0D")
+    // // APIのURLを設定
+    // const API_URL = "http://localhost:5000/history";
+
+    // // locationsの値が変更された際に、DBテーブルを更新する処理を実装
+    // useEffect(() => {
+    //     const updateDB = async () => {
+    //         try {
+    //             const newLocations = locations.filter(location => location !== "");
+    //             await axios.post(API_URL, newLocations);
+    //         } catch (err) {
+    //             console.error(err);
+    //         }
+    //     };
+    //     updateDB();
+    // }, [locations]);
 
     const handlePin = (index) => {
         if (searchValues[index] !== '') {
@@ -29,8 +45,8 @@ export const LeftMenu = (props) => {
                                 "lat": lat,
                                 "lng": lng
                             },
-                            "radius" : parseInt(radiusValues[index])*1000,
-                            "circleOptions" : {
+                            "radius": parseInt(radiusValues[index]) * 1000,
+                            "circleOptions": {
                                 strokeColor: areaColor[index],
                                 strokeOpacity: 0.8,
                                 strokeWeight: 2,
@@ -80,7 +96,7 @@ export const LeftMenu = (props) => {
         const newLocations = [...locations];
         newLocations[index] = "";
         setLocations(newLocations);
-      };
+    };
 
     return (
         <div className="left-menu">
