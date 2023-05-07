@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require("express");
 const app = express();
+const cors = require('cors');
+app.use(cors());
 const port = 5001;
 
 app.use(express.json());
@@ -16,6 +18,7 @@ app.get("/", (req, res) => {
 app.get('/history', async (req, res) => {
   try {
     const rows = await getHistory();
+    res.header('Access-Control-Allow-Origin', '*');
     res.send(rows);
   } catch (err) {
     console.error(err);
@@ -28,6 +31,7 @@ app.post('/history', express.json(), async (req, res) => {
   try {
     const { lat, lng, radius } = req.body;
     const result = await addHistory(lat, lng, radius);
+    res.header('Access-Control-Allow-Origin', '*');
     res.send(result);
   } catch (err) {
     console.error(err);
