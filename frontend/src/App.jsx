@@ -19,11 +19,21 @@ export const App = () => {
   const [pinValue, setPinValue] = useState(new Array(pinMax).fill(''));
   const [locations, setLocations] = useState(new Array(pinMax).fill(''));
   const [radiusValues, setRadiusValues] = useState(new Array(pinMax).fill(''));
+  const [historyData, setHistoryData] = useState([]);
   const onChangePinNum = (e) => setPinNum(e.target.value);
   const mapStyles = {
     height: "100%",
     width: "100%"
   };
+
+  useEffect(() => {
+    async function fetchHistoryData() {
+      const result = await axios.get('http://localhost:5001/history');
+      setHistoryData(result.data);
+    }
+
+    fetchHistoryData();
+  }, []);
 
   useEffect(() => {
     const calculateCenter = (locations) => {
@@ -81,6 +91,31 @@ export const App = () => {
     <>
       <Header />
       <div className="container">
+      <div>
+      <h1>History Data</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Radius</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {historyData.map((row) => (
+            <tr key={row.id}>
+              <td>{row.id}</td>
+              <td>{row.lat}</td>
+              <td>{row.lng}</td>
+              <td>{row.radius}</td>
+              <td>{row.created_at}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
         <LeftMenu
           pinMax={pinMax}
           pinNum={pinNum}
