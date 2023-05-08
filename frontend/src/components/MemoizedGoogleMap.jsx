@@ -1,9 +1,7 @@
-import React from 'react';
-import { Marker, Circle } from '@react-google-maps/api';
+import React from "react";
+import { Marker, Circle } from "@react-google-maps/api";
 
 const MemoizedGoogleMap = React.memo(({ locations }) => {
-
-
   const memoizedLocations = React.useMemo(
     () => locations.filter(Boolean),
     [locations]
@@ -13,7 +11,11 @@ const MemoizedGoogleMap = React.memo(({ locations }) => {
     return (
       <div key={index}>
         <Marker position={item.location} />
-        <Circle center={item.location} radius={item.radius} options={item.circleOptions} />
+        <Circle
+          center={item.location}
+          radius={item.radius}
+          options={item.circleOptions}
+        />
       </div>
     );
   });

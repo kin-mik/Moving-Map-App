@@ -1,11 +1,12 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { GoogleMap, LoadScript, Marker, Circle } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import { Header } from "./components/Header";
 import { LeftMenu } from "./components/LeftMenu";
 import { MemoizedGoogleMap } from "./components/MemoizedGoogleMap";
 // import MainContent from "./MainContent";
-import "./styles.css";
 
+import "./styles.css";
 
 export const App = () => {
   const pinMax = 5;
@@ -13,21 +14,41 @@ export const App = () => {
   const [zoom, setZoom] = useState(15);
   const [searchValue, setSearchValue] = useState("");
   const [pinNum, setPinNum] = useState(3);
-  const [searchValues, setSearchValues] = useState(new Array(pinMax).fill(''));
-  const [pinValue, setPinValue] = useState(new Array(pinMax).fill(''));
-  const [locations, setLocations] = useState(new Array(pinMax).fill(''));
-  const [radiusValues, setRadiusValues] = useState(new Array(pinMax).fill(''));
+  const [searchValues, setSearchValues] = useState(new Array(pinMax).fill(""));
+  const [pinValue, setPinValue] = useState(new Array(pinMax).fill(""));
+  const [locations, setLocations] = useState(new Array(pinMax).fill(""));
+  const [radiusValues, setRadiusValues] = useState(new Array(pinMax).fill(""));
+  const [historyData, setHistoryData] = useState([]);
   const onChangePinNum = (e) => setPinNum(e.target.value);
   const mapStyles = {
     height: "100%",
-    width: "100%"
+    width: "100%",
   };
 
   useEffect(() => {
+    async function fetchHistoryData() {
+      const result = await axios.get("http://localhost:5001/history");
+      setHistoryData(result.data);
+    }
+
+    fetchHistoryData();
+  }, []);
+
+  useEffect(() => {
     const calculateCenter = (locations) => {
-      const filteredLocations = locations.filter(location => location && location.location && location.location.lat && location.location.lng);
-      const lats = filteredLocations.map(location => location.location.lat).filter(lat => !isNaN(lat));
-      const lngs = filteredLocations.map(location => location.location.lng).filter(lng => !isNaN(lng));
+      const filteredLocations = locations.filter(
+        (location) =>
+          location &&
+          location.location &&
+          location.location.lat &&
+          location.location.lng
+      );
+      const lats = filteredLocations
+        .map((location) => location.location.lat)
+        .filter((lat) => !isNaN(lat));
+      const lngs = filteredLocations
+        .map((location) => location.location.lng)
+        .filter((lng) => !isNaN(lng));
 
       if (lats.length > 1 && lngs.length > 1) {
         const latMin = Math.min(...lats);
@@ -40,14 +61,19 @@ export const App = () => {
 
         // Calculate the zoom level based on the distance between the min and max lat/lng values
         const R = 6371; // Earth's radius in km
-        const dLat = (latMax - latMin) * Math.PI / 180;
-        const dLng = (lngMax - lngMin) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(latMin * Math.PI / 180) * Math.cos(latMax * Math.PI / 180) *
-          Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const dLat = ((latMax - latMin) * Math.PI) / 180;
+        const dLng = ((lngMax - lngMin) * Math.PI) / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos((latMin * Math.PI) / 180) *
+            Math.cos((latMax * Math.PI) / 180) *
+            Math.sin(dLng / 2) *
+            Math.sin(dLng / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c;
-        const zoomLevel = Math.round(14 - Math.log(distance / Math.sqrt(2)) / Math.log(2));
+        const zoomLevel = Math.round(
+          14 - Math.log(distance / Math.sqrt(2)) / Math.log(2)
+        );
 
         setCenter({ lat: latAvg, lng: lngAvg });
         setZoom(zoomLevel * 1.1);
@@ -69,7 +95,9 @@ export const App = () => {
           const lng = results[0].geometry.location.lng();
           setCenter({ lat, lng });
         } else {
-          alert("Geocode was not successful for the following reason: " + status);
+          alert(
+            "Geocode was not successful for the following reason: " + status
+          );
         }
       }
     );
@@ -91,6 +119,7 @@ export const App = () => {
           radiusValues={radiusValues}
           setRadiusValues={setRadiusValues}
           onChange={onChangePinNum}
+          historyData={historyData}
         />
         <div className="main-contents">
           <div className="input-area">
@@ -103,11 +132,14 @@ export const App = () => {
             <button onClick={handleSearch}>検索</button>
           </div>
           <div className="map-area">
-
             <LoadScript
               googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
             >
-              <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={zoom}>
+              <GoogleMap
+                mapContainerStyle={mapStyles}
+                center={center}
+                zoom={zoom}
+              >
                 <MemoizedGoogleMap locations={locations} />
               </GoogleMap>
             </LoadScript>
@@ -115,6 +147,5 @@ export const App = () => {
         </div>
       </div>
     </>
-  )
-
+  );
 };
