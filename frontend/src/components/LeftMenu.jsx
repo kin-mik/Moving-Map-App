@@ -1,7 +1,6 @@
 // import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import { SearchBox } from "./SearchBox";
-import { PinBox } from "./PinBox";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 

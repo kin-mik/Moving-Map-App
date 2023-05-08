@@ -145,31 +145,6 @@ export const App = () => {
             </LoadScript>
           </div>
         </div>
-        {/* <div>
-          <p>History Data</p>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Lat</th>
-                <th>Lng</th>
-                <th>Radius</th>
-                <th>Created At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {historyData.map((row) => (
-                <tr key={row.id}>
-                  <td>{row.id}</td>
-                  <td>{row.lat.toFixed(2)}</td>
-                  <td>{row.lng.toFixed(2)}</td>
-                  <td>{row.radius}</td>
-                  <td>{row.created_at}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div> */}
       </div>
     </>
   );
