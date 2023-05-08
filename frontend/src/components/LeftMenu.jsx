@@ -143,25 +143,32 @@ export const LeftMenu = (props) => {
         </TabPanel>
         <TabPanel>
           <div>
-            <p>History Data</p>
-            <table>
+            <p className="title">History Data</p>
+            <table className="table-history">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Lat</th>
-                  <th>Lng</th>
-                  <th>Radius</th>
+                  <th>地名</th>
+                  {/* <th>Lat</th>
+                  <th>Lng</th> */}
+                  <th>半径</th>
                   {/* <th>Created At</th> */}
+                  <th>アクション</th>
                 </tr>
               </thead>
               <tbody>
                 {historyData.map((row) => (
                   <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td>{row.lat.toFixed(2)}</td>
-                    <td>{row.lng.toFixed(2)}</td>
-                    <td>{row.radius}</td>
+                    <td>{row.place}</td>
+                    {/* <td>{row.lat.toFixed(2)}</td>
+                    <td>{row.lng.toFixed(2)}</td> */}
+                    <td>{(row.radius / 1000).toFixed(1)}km</td>
                     {/* <td>{row.created_at}</td> */}
+                    <td>
+                      <button>表示</button>
+                      <button>解除</button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
