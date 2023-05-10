@@ -88,7 +88,6 @@ export const LeftMenu = (props) => {
               lng,
               parseInt(radiusValues[index]) * 1000
             );
-            // addPin("a", 35.681167, 139.767052, 500);
           } else {
             alert(
               "Geocode was not successful for the following reason: " + status
@@ -169,6 +168,7 @@ export const LeftMenu = (props) => {
         <TabPanel>
           <div>
             <p className="title">History Data</p>
+            <button>履歴全て削除</button>
             <table className="table-history">
               <thead>
                 <tr>
@@ -191,8 +191,8 @@ export const LeftMenu = (props) => {
                     <td>{(row.radius / 1000).toFixed(1)}km</td>
                     {/* <td>{row.created_at}</td> */}
                     <td>
-                      <button>表示</button>
-                      <button>解除</button>
+                      <button>表示/非表示</button>
+                      <button>履歴削除</button>
                     </td>
                   </tr>
                 ))}
