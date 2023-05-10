@@ -18,6 +18,7 @@ export const LeftMenu = (props) => {
     setRadiusValues,
     onChange,
     historyData,
+    handleClick,
   } = props;
   const areaColor = new Array(
     "#FF3B0D",
@@ -168,7 +169,8 @@ export const LeftMenu = (props) => {
         <TabPanel>
           <div>
             <p className="title">History Data</p>
-            <button>履歴全て削除</button>
+            <button onClick={handleClick}>履歴更新</button>
+            <button>履歴全削除</button>
             <table className="table-history">
               <thead>
                 <tr>
@@ -191,8 +193,8 @@ export const LeftMenu = (props) => {
                     <td>{(row.radius / 1000).toFixed(1)}km</td>
                     {/* <td>{row.created_at}</td> */}
                     <td>
-                      <button>表示/非表示</button>
-                      <button>履歴削除</button>
+                      <button>表示</button>
+                      <button>削除</button>
                     </td>
                   </tr>
                 ))}

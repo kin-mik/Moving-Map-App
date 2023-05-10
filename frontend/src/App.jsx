@@ -25,14 +25,10 @@ export const App = () => {
     width: "100%",
   };
 
-  useEffect(() => {
-    async function fetchHistoryData() {
-      const result = await axios.get("http://localhost:5001/history");
-      setHistoryData(result.data);
-    }
-
-    fetchHistoryData();
-  }, []);
+  const handleClick = async () => {
+    const result = await axios.get("http://localhost:5001/history");
+    setHistoryData(result.data);
+  };
 
   useEffect(() => {
     const calculateCenter = (locations) => {
@@ -120,6 +116,7 @@ export const App = () => {
           setRadiusValues={setRadiusValues}
           onChange={onChangePinNum}
           historyData={historyData}
+          handleClick={handleClick}
         />
         <div className="main-contents">
           <div className="input-area">
