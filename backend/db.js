@@ -21,7 +21,7 @@ async function getHistory() {
 async function addHistory(place, lat, lng, radius) {
   const connection = await pool.getConnection();
   const [result] = await connection.execute(
-    "INSERT INTO history (place, lat, lng, radius) VALUES (?, ?, ?)",
+    "INSERT INTO history (place, lat, lng, radius) VALUES (?, ?, ?, ?)",
     [place, lat, lng, radius]
   );
   connection.release();

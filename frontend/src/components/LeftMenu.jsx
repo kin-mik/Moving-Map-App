@@ -27,6 +27,23 @@ export const LeftMenu = (props) => {
     "#FFBA0D"
   );
 
+  const addPin = async (place, lat, lng, radius) => {
+    try {
+      const res = await fetch("http://localhost:5001/history", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ place, lat, lng, radius }),
+      });
+      const data = await res.json();
+      console.log(res.status); // ステータスコードをログに出力する
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handlePin = (index) => {
     if (searchValues[index] !== "") {
       const geocoder = new window.google.maps.Geocoder();
@@ -64,6 +81,14 @@ export const LeftMenu = (props) => {
               },
             };
             setLocations(newLocations);
+            // POSTリクエストを送信
+            addPin(
+              searchValues[index],
+              lat,
+              lng,
+              parseInt(radiusValues[index]) * 1000
+            );
+            // addPin("a", 35.681167, 139.767052, 500);
           } else {
             alert(
               "Geocode was not successful for the following reason: " + status
