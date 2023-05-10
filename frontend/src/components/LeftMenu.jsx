@@ -18,6 +18,7 @@ export const LeftMenu = (props) => {
     setRadiusValues,
     onChange,
     historyData,
+    handleClick,
   } = props;
   const areaColor = new Array(
     "#FF3B0D",
@@ -26,6 +27,23 @@ export const LeftMenu = (props) => {
     "#19FFB0",
     "#FFBA0D"
   );
+
+  const addPin = async (place, lat, lng, radius) => {
+    try {
+      const res = await fetch("http://localhost:5001/history", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ place, lat, lng, radius }),
+      });
+      const data = await res.json();
+      console.log(res.status); // ステータスコードをログに出力する
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handlePin = (index) => {
     if (searchValues[index] !== "") {
@@ -64,6 +82,13 @@ export const LeftMenu = (props) => {
               },
             };
             setLocations(newLocations);
+            // POSTリクエストを送信
+            addPin(
+              searchValues[index],
+              lat,
+              lng,
+              parseInt(radiusValues[index]) * 1000
+            );
           } else {
             alert(
               "Geocode was not successful for the following reason: " + status
@@ -144,6 +169,8 @@ export const LeftMenu = (props) => {
         <TabPanel>
           <div>
             <p className="title">History Data</p>
+            <button onClick={handleClick}>履歴更新</button>
+            <button>履歴全削除</button>
             <table className="table-history">
               <thead>
                 <tr>
@@ -167,7 +194,7 @@ export const LeftMenu = (props) => {
                     {/* <td>{row.created_at}</td> */}
                     <td>
                       <button>表示</button>
-                      <button>解除</button>
+                      <button>削除</button>
                     </td>
                   </tr>
                 ))}
