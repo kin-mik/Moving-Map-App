@@ -28,4 +28,11 @@ async function addHistory(place, lat, lng, radius) {
   return result.insertId;
 }
 
+async function deleteAllHistory() {
+  const connection = await pool.getConnection();
+  const [result] = await connection.execute("DELETE FROM history");
+  connection.release();
+  return result.affectedRows;
+}
+
 module.exports = { getHistory, addHistory };
