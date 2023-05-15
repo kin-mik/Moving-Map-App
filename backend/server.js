@@ -32,7 +32,7 @@ app.post("/history", express.json(), async (req, res) => {
     const { place, lat, lng, radius } = req.body;
     const result = await addHistory(place, lat, lng, radius);
     res.header("Access-Control-Allow-Origin", "*");
-    res.send(result);
+    res.status(200).send({ message: "Success" });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
