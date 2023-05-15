@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { SearchBox } from "./SearchBox";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -38,12 +38,21 @@ export const LeftMenu = (props) => {
         body: JSON.stringify({ place, lat, lng, radius }),
       });
       const data = await res.json();
-      console.log(res.status); // ステータスコードをログに出力する
+      // console.log(res.status); // ステータスコードをログに出力する
       console.log(data);
     } catch (err) {
       console.error(err);
     }
   };
+
+  async function deleteAllHistory() {
+    try {
+      const res = await axios.delete("http://localhost:5001/history");
+      console.log(res.data); // 成功時のレスポンスを表示
+    } catch (err) {
+      console.error(err); // エラー時のログを表示
+    }
+  }
 
   const handlePin = (index) => {
     if (searchValues[index] !== "") {
@@ -125,6 +134,11 @@ export const LeftMenu = (props) => {
     setLocations(newLocations);
   };
 
+  // 削除ボタンのクリック時に一括削除を実行
+  const handleDeleteAll = () => {
+    deleteAllHistory();
+  };
+
   return (
     <div className="left-menu">
       <div className="left-head">
@@ -170,7 +184,7 @@ export const LeftMenu = (props) => {
           <div>
             <p className="title">History Data</p>
             <button onClick={handleClick}>履歴更新</button>
-            <button>履歴全削除</button>
+            <button onClick={handleDeleteAll}>履歴全削除</button>
             <table className="table-history">
               <thead>
                 <tr>
