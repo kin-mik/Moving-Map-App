@@ -35,4 +35,4 @@ async function deleteAllHistory() {
   return result.affectedRows;
 }
 
-module.exports = { getHistory, addHistory };
+module.exports = { getHistory, addHistory, deleteAllHistory };

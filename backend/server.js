@@ -8,7 +8,7 @@ const port = 5001;
 app.use(express.json());
 
 // db.jsからエクスポートされた関数を読み込む
-const { getHistory, addHistory } = require("./db");
+const { getHistory, addHistory, deleteAllHistory } = require("./db");
 
 app.get("/", (req, res) => {
   res.send("hello world");
