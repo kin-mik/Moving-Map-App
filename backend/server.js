@@ -39,6 +39,18 @@ app.post("/history", express.json(), async (req, res) => {
   }
 });
 
+// DELETE /history API
+app.delete("/history", async (req, res) => {
+  try {
+    const result = await deleteAllHistory();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.send({ message: "History deleted", affectedRows: result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
