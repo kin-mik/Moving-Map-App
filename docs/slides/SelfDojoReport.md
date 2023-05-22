@@ -4,7 +4,7 @@ marp: true
 transition: "slide"
 highlightTheme: "a11y-dark"
 paginate: true
-header: "コーチング×ChatGPTで開発未経験者がゼロからWebアプリを作ってみた話"
+header: "開発未経験エンジニアがコーチング×ChatGPTでゼロからWebアプリを作ってみた話"
 ---
 
 ![bg opacity:0.2](./images/bg.jpg)
@@ -15,7 +15,7 @@ header: "コーチング×ChatGPTで開発未経験者がゼロからWebアプ�
 
 ---
 
-![bg 70% right:50%](./images/GPT_Slide.png)
+![bg 90% right:40%](./images/GPT_Slide.png)
 
 ## 目次
 
