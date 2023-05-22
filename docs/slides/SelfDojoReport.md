@@ -4,18 +4,16 @@ marp: true
 transition: "slide"
 highlightTheme: "a11y-dark"
 paginate: true
-header: "コーチング×ChatGPT で開発未経験者が Web アプリを作ってみた話"
+header: "コーチング×ChatGPTで開発未経験者がゼロからWebアプリを作ってみた話"
 ---
 
 ![bg opacity:0.2](./images/bg.jpg)
 
-# コーチング＋ ChatGPT で開発未経験者が Web アプリを作ってみた話
+# 開発未経験エンジニアが **_コーチング_** × **_ChatGPT_** で **ゼロ**から **Web アプリ**を作ってみた話
 
 <!-- - ある日のエバンジェリストの冒険 -->
 
 ---
-
-<!-- _class: right-align -->
 
 ![bg 70% right:50%](./images/GPT_Slide.png)
 
@@ -39,8 +37,6 @@ header: "コーチング×ChatGPT で開発未経験者が Web アプリを作�
 
 ---
 
-<!-- ![bg opacity:0.1](./images/bg.jpg) -->
-
 ## 2. コーチングと ChatGPT
 
 ### 期間は 3 ヶ月、毎週 10 時間程度投下
@@ -48,7 +44,7 @@ header: "コーチング×ChatGPT で開発未経験者が Web アプリを作�
 - コーチング：モチベ維持や大まかな開発方針の相談
 - ChatGPT：エラー対応、コード生成の他、学習サポートも
 
-### 3 ヶ月の流れ
+### 3 ヶ月のおおまかな流れ
 
 - アイデア出し ➡️UI デザイン ➡️ 学習 ➡️ 実装
 
@@ -72,8 +68,6 @@ header: "コーチング×ChatGPT で開発未経験者が Web アプリを作�
 - 以降 ChatGPT 先生に頼りながら実装
 
 ---
-
-<!-- ![bg opacity:0.1](./images/bg.jpg) -->
 
 ## 5. 結果と反省
 
