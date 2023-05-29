@@ -194,7 +194,7 @@ export const LeftMenu = (props) => {
                   <th>Lng</th> */}
                   <th>半径</th>
                   {/* <th>Created At</th> */}
-                  <th>アクション</th>
+                  {/* <th>アクション</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -206,10 +206,10 @@ export const LeftMenu = (props) => {
                     <td>{row.lng.toFixed(2)}</td> */}
                     <td>{(row.radius / 1000).toFixed(1)}km</td>
                     {/* <td>{row.created_at}</td> */}
-                    <td>
+                    {/* <td>
                       <button>表示</button>
                       <button>削除</button>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
